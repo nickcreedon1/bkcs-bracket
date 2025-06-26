@@ -1,148 +1,268 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+Here is the raw HTML text for your updated `index.html`:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.6">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Menlo; color: #6d6d6d; -webkit-text-stroke: #6d6d6d}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Menlo; color: #1443ae; -webkit-text-stroke: #1443ae}
-    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Menlo; color: #12737e; -webkit-text-stroke: #12737e}
-    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Menlo; color: #a20010; -webkit-text-stroke: #a20010}
-    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Menlo; color: #2e3133; -webkit-text-stroke: #2e3133}
-    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Menlo; color: #6103ad; -webkit-text-stroke: #6103ad}
-    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Menlo; color: #137646; -webkit-text-stroke: #137646}
-    p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Menlo; color: #2e3133; -webkit-text-stroke: #2e3133; min-height: 15.0px}
-    p.p9 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Menlo; color: #156227; -webkit-text-stroke: #156227}
-    p.p10 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Menlo; color: #18191b; -webkit-text-stroke: #18191b}
-    span.s1 {font-kerning: none; background-color: #f6f7f9}
-    span.s2 {font-kerning: none; color: #fb0007; background-color: #f6f7f9; -webkit-text-stroke: 0px #fb0007}
-    span.s3 {font-kerning: none; color: #2a2a2a; background-color: #f6f7f9; -webkit-text-stroke: 0px #2a2a2a}
-    span.s4 {font-kerning: none; color: #2e3133; background-color: #f6f7f9; -webkit-text-stroke: 0px #2e3133}
-    span.s5 {font-kerning: none; color: #12737e; background-color: #f6f7f9; -webkit-text-stroke: 0px #12737e}
-    span.s6 {font-kerning: none; color: #a20010; background-color: #f6f7f9; -webkit-text-stroke: 0px #a20010}
-    span.s7 {font-kerning: none; color: #1443ae; background-color: #f6f7f9; -webkit-text-stroke: 0px #1443ae}
-    span.s8 {font-kerning: none; color: #6103ad; background-color: #f6f7f9; -webkit-text-stroke: 0px #6103ad}
-    span.s9 {font-kerning: none; color: #137646; background-color: #f6f7f9; -webkit-text-stroke: 0px #137646}
-    span.s10 {font-kerning: none; color: #093c94; background-color: #f6f7f9; -webkit-text-stroke: 0px #093c94}
-    span.s11 {font-kerning: none}
-    span.s12 {font-kerning: none; color: #18191b; background-color: #f6f7f9; -webkit-text-stroke: 0px #18191b}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BKCS Croquet Tournament Bracket</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f9;
+      color: #333;
+    }
+    header {
+      background-color: #4caf50;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    .bracket-container {
+      display: flex;
+      justify-content: space-between;
+      overflow-x: auto;
+      margin: 2rem;
+      position: relative;
+    }
+    .round {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      margin: 0 1rem;
+      position: relative;
+    }
+    .match {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin: 2rem 0;
+      padding: 1rem;
+      text-align: center;
+      width: 180px;
+      position: relative;
+    }
+    .line {
+      position: absolute;
+      background: #000;
+    }
+    .line.horizontal {
+      height: 2px;
+    }
+    .line.vertical {
+      width: 2px;
+    }
+    .match span {
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 0.5rem;
+    }
+    .team {
+      font-weight: bold;
+      margin-top: .5rem;
+    }
+    .team .percent {
+      font-size: 0.9rem;
+      color: #888;
+      font-style: italic;
+      margin-bottom: 0.5rem;
+    }
+    .admin-panel {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 8px;
+    }
+    .team-input {
+      margin-bottom: 1rem;
+    }
+    .team-input label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .team-input input {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+    .toggle-button {
+      margin: 1rem auto;
+      display: block;
+      padding: 0.5rem 1rem;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
-<p class="p1"><span class="s1">&lt;!DOCTYPE</span><span class="s2"> html</span><span class="s1">&gt;</span></p>
-<p class="p2"><span class="s3">&lt;</span><span class="s1">html</span><span class="s4"> </span><span class="s5">lang</span><span class="s3">=</span><span class="s6">"en"</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s3">&lt;</span><span class="s1">head</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">  </span></span><span class="s3">&lt;</span><span class="s7">meta</span><span class="s4"> </span><span class="s1">charset</span><span class="s3">=</span><span class="s6">"UTF-8"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s4"><span class="Apple-converted-space">  </span></span><span class="s3">&lt;</span><span class="s7">meta</span><span class="s4"> </span><span class="s5">name</span><span class="s3">=</span><span class="s1">"viewport"</span><span class="s4"> </span><span class="s5">content</span><span class="s3">=</span><span class="s1">"width=device-width, initial-scale=1.0"</span><span class="s3">&gt;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">  </span></span><span class="s3">&lt;</span><span class="s7">title</span><span class="s3">&gt;</span><span class="s1">BKCS Croquet Tournament Bracket</span><span class="s3">&lt;/</span><span class="s7">title</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">  </span></span><span class="s3">&lt;</span><span class="s1">style</span><span class="s3">&gt;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s8">body</span><span class="s1"> {</span></p>
-<p class="p4"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s5">font-family:</span><span class="s4"> </span><span class="s1">Arial</span><span class="s4">, </span><span class="s1">sans-serif</span><span class="s4">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">      </span></span><span class="s5">margin:</span><span class="s1"> </span><span class="s9">0</span><span class="s1">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">      </span></span><span class="s5">padding:</span><span class="s1"> </span><span class="s9">0</span><span class="s1">;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s1">background:</span><span class="s4"> </span><span class="s10">#f4f4f9</span><span class="s4">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">      </span></span><span class="s5">color:</span><span class="s1"> </span><span class="s10">#333</span><span class="s1">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s8">header</span><span class="s1"> {</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s1">background-color:</span><span class="s4"> </span><span class="s10">#4caf50</span><span class="s4">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">      </span></span><span class="s5">color:</span><span class="s1"> </span><span class="s6">white</span><span class="s1">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">      </span></span><span class="s5">padding:</span><span class="s1"> </span><span class="s9">1rem</span><span class="s1">;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s1">text-align:</span><span class="s4"> </span><span class="s6">center</span><span class="s4">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p6"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s1">.bracket-container</span><span class="s4"> {</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">      </span></span><span class="s5">display:</span><span class="s1"> </span><span class="s6">flex</span><span class="s1">;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s1">flex-wrap:</span><span class="s4"> </span><span class="s6">wrap</span><span class="s4">;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s1">justify-content:</span><span class="s4"> </span><span class="s6">center</span><span class="s4">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">      </span></span><span class="s5">margin:</span><span class="s1"> </span><span class="s9">2rem</span><span class="s1"> </span><span class="s6">auto</span><span class="s1">;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s1">max-width:</span><span class="s4"> </span><span class="s9">1200px</span><span class="s4">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s8">.match</span><span class="s1"> {</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s1">background:</span><span class="s4"> </span><span class="s6">white</span><span class="s4">;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s1">border-radius:</span><span class="s4"> </span><span class="s9">8px</span><span class="s4">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">      </span></span><span class="s5">box-shadow:</span><span class="s1"> </span><span class="s9">0</span><span class="s1"> </span><span class="s9">2px</span><span class="s1"> </span><span class="s9">5px</span><span class="s1"> </span><span class="s6">rgba(</span><span class="s9">0</span><span class="s1">,</span><span class="s9">0</span><span class="s1">,</span><span class="s9">0</span><span class="s1">,</span><span class="s9">0.1</span><span class="s6">)</span><span class="s1">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">      </span></span><span class="s5">margin:</span><span class="s1"> </span><span class="s9">1rem</span><span class="s1">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">      </span></span><span class="s5">padding:</span><span class="s1"> </span><span class="s9">1rem</span><span class="s1">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">      </span></span><span class="s5">width:</span><span class="s1"> </span><span class="s9">250px</span><span class="s1">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s8">.team</span><span class="s1"> {</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s1">font-weight:</span><span class="s4"> </span><span class="s6">bold</span><span class="s4">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">      </span></span><span class="s5">margin:</span><span class="s1"> </span><span class="s9">0.5rem</span><span class="s1"> </span><span class="s9">0</span><span class="s1">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s8">.odds</span><span class="s1"> {</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s1">font-size:</span><span class="s4"> </span><span class="s9">0.9rem</span><span class="s4">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">      </span></span><span class="s5">color:</span><span class="s1"> </span><span class="s10">#666</span><span class="s1">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p6"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s1">.admin-panel</span><span class="s4"> {</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s1">max-width:</span><span class="s4"> </span><span class="s9">600px</span><span class="s4">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">      </span></span><span class="s5">margin:</span><span class="s1"> </span><span class="s9">2rem</span><span class="s1"> </span><span class="s6">auto</span><span class="s1">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">      </span></span><span class="s5">padding:</span><span class="s1"> </span><span class="s9">1rem</span><span class="s1">;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s1">background:</span><span class="s4"> </span><span class="s10">#fff</span><span class="s4">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">      </span></span><span class="s5">box-shadow:</span><span class="s1"> </span><span class="s9">0</span><span class="s1"> </span><span class="s9">0</span><span class="s1"> </span><span class="s9">10px</span><span class="s1"> </span><span class="s6">rgba(</span><span class="s9">0</span><span class="s1">,</span><span class="s9">0</span><span class="s1">,</span><span class="s9">0</span><span class="s1">,</span><span class="s9">0.1</span><span class="s6">)</span><span class="s1">;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s1">border-radius:</span><span class="s4"> </span><span class="s9">8px</span><span class="s4">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p6"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s1">.admin-panel</span><span class="s4"> </span><span class="s1">h2</span><span class="s4"> {</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s1">margin-top:</span><span class="s4"> </span><span class="s9">0</span><span class="s4">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p6"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s1">.admin-panel</span><span class="s4"> </span><span class="s1">input</span><span class="s4">, </span><span class="s1">.admin-panel</span><span class="s4"> </span><span class="s1">select</span><span class="s4"> {</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">      </span></span><span class="s5">display:</span><span class="s1"> </span><span class="s6">block</span><span class="s1">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">      </span></span><span class="s5">width:</span><span class="s1"> </span><span class="s9">100%</span><span class="s1">;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s1">margin-bottom:</span><span class="s4"> </span><span class="s9">1rem</span><span class="s4">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">      </span></span><span class="s5">padding:</span><span class="s1"> </span><span class="s9">0.5rem</span><span class="s1">;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s1">font-size:</span><span class="s4"> </span><span class="s9">1rem</span><span class="s4">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p6"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s1">.admin-panel</span><span class="s4"> </span><span class="s1">button</span><span class="s4"> {</span></p>
-<p class="p7"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s5">padding:</span><span class="s4"> </span><span class="s1">0.5rem</span><span class="s4"> </span><span class="s1">1rem</span><span class="s4">;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s1">background-color:</span><span class="s4"> </span><span class="s10">#4caf50</span><span class="s4">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">      </span></span><span class="s5">color:</span><span class="s1"> </span><span class="s6">white</span><span class="s1">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">      </span></span><span class="s5">border:</span><span class="s1"> </span><span class="s6">none</span><span class="s1">;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s1">border-radius:</span><span class="s4"> </span><span class="s9">4px</span><span class="s4">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">      </span></span><span class="s5">cursor:</span><span class="s1"> </span><span class="s6">pointer</span><span class="s1">;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">  </span></span><span class="s3">&lt;/</span><span class="s1">style</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s3">&lt;/</span><span class="s1">head</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s3">&lt;</span><span class="s1">body</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">  </span></span><span class="s3">&lt;</span><span class="s1">header</span><span class="s3">&gt;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s7">h1</span><span class="s3">&gt;</span><span class="s1">BKCS Croquet Tournament Bracket</span><span class="s3">&lt;/</span><span class="s7">h1</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">  </span></span><span class="s3">&lt;/</span><span class="s1">header</span><span class="s3">&gt;</span></p>
-<p class="p8"><span class="s11"></span><br></p>
-<p class="p4"><span class="s4"><span class="Apple-converted-space">  </span></span><span class="s3">&lt;</span><span class="s7">div</span><span class="s4"> </span><span class="s5">class</span><span class="s3">=</span><span class="s1">"bracket-container"</span><span class="s4"> </span><span class="s5">id</span><span class="s3">=</span><span class="s1">"bracket"</span><span class="s3">&gt;</span></p>
-<p class="p9"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s1">&lt;!-- Matches will be inserted here --&gt;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">  </span></span><span class="s3">&lt;/</span><span class="s1">div</span><span class="s3">&gt;</span></p>
-<p class="p8"><span class="s11"></span><br></p>
-<p class="p4"><span class="s4"><span class="Apple-converted-space">  </span></span><span class="s3">&lt;</span><span class="s7">div</span><span class="s4"> </span><span class="s5">class</span><span class="s3">=</span><span class="s1">"admin-panel"</span><span class="s3">&gt;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s7">h2</span><span class="s3">&gt;</span><span class="s1">Admin Panel</span><span class="s3">&lt;/</span><span class="s7">h2</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s7">input</span><span class="s4"> </span><span class="s5">type</span><span class="s3">=</span><span class="s1">"text"</span><span class="s4"> </span><span class="s5">id</span><span class="s3">=</span><span class="s1">"team1"</span><span class="s4"> </span><span class="s5">placeholder</span><span class="s3">=</span><span class="s1">"Team 1 (e.g. Alice &amp; Bob)"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s7">input</span><span class="s4"> </span><span class="s5">type</span><span class="s3">=</span><span class="s1">"text"</span><span class="s4"> </span><span class="s5">id</span><span class="s3">=</span><span class="s1">"team2"</span><span class="s4"> </span><span class="s5">placeholder</span><span class="s3">=</span><span class="s1">"Team 2 (e.g. Charlie &amp; Dana)"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s7">input</span><span class="s4"> </span><span class="s5">type</span><span class="s3">=</span><span class="s1">"text"</span><span class="s4"> </span><span class="s5">id</span><span class="s3">=</span><span class="s1">"matchTime"</span><span class="s4"> </span><span class="s5">placeholder</span><span class="s3">=</span><span class="s1">"Match Time (e.g. 2 PM)"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s7">input</span><span class="s4"> </span><span class="s5">type</span><span class="s3">=</span><span class="s1">"text"</span><span class="s4"> </span><span class="s5">id</span><span class="s3">=</span><span class="s1">"odds"</span><span class="s4"> </span><span class="s5">placeholder</span><span class="s3">=</span><span class="s1">"Odds (e.g. 1.5 - 2.5)"</span><span class="s3">&gt;</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s7">button</span><span class="s1"> </span><span class="s5">onclick</span><span class="s3">=</span><span class="s6">"addMatch()"</span><span class="s3">&gt;</span><span class="s1">Add Match</span><span class="s3">&lt;/</span><span class="s7">button</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">  </span></span><span class="s3">&lt;/</span><span class="s1">div</span><span class="s3">&gt;</span></p>
-<p class="p8"><span class="s11"></span><br></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">  </span></span><span class="s3">&lt;</span><span class="s1">script</span><span class="s3">&gt;</span></p>
-<p class="p10"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s7">const</span><span class="s4"> </span><span class="s1">bracket</span><span class="s4"> = </span><span class="s1">document</span><span class="s4">.</span><span class="s1">getElementById</span><span class="s4">(</span><span class="s6">'bracket'</span><span class="s4">);</span></p>
-<p class="p8"><span class="s11"></span><br></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s7">function</span><span class="s1"> </span><span class="s12">addMatch</span><span class="s1">() {</span></p>
-<p class="p10"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s7">const</span><span class="s4"> </span><span class="s1">team1</span><span class="s4"> = </span><span class="s1">document</span><span class="s4">.</span><span class="s1">getElementById</span><span class="s4">(</span><span class="s6">'team1'</span><span class="s4">).</span><span class="s1">value</span><span class="s4">;</span></p>
-<p class="p10"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s7">const</span><span class="s4"> </span><span class="s1">team2</span><span class="s4"> = </span><span class="s1">document</span><span class="s4">.</span><span class="s1">getElementById</span><span class="s4">(</span><span class="s6">'team2'</span><span class="s4">).</span><span class="s1">value</span><span class="s4">;</span></p>
-<p class="p10"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s7">const</span><span class="s4"> </span><span class="s1">time</span><span class="s4"> = </span><span class="s1">document</span><span class="s4">.</span><span class="s1">getElementById</span><span class="s4">(</span><span class="s6">'matchTime'</span><span class="s4">).</span><span class="s1">value</span><span class="s4">;</span></p>
-<p class="p10"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s7">const</span><span class="s4"> </span><span class="s1">odds</span><span class="s4"> = </span><span class="s1">document</span><span class="s4">.</span><span class="s1">getElementById</span><span class="s4">(</span><span class="s6">'odds'</span><span class="s4">).</span><span class="s1">value</span><span class="s4">;</span></p>
-<p class="p8"><span class="s11"></span><br></p>
-<p class="p10"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s7">const</span><span class="s4"> </span><span class="s1">match</span><span class="s4"> = </span><span class="s1">document</span><span class="s4">.</span><span class="s1">createElement</span><span class="s4">(</span><span class="s6">'div'</span><span class="s4">);</span></p>
-<p class="p10"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s1">match</span><span class="s4">.</span><span class="s1">classList</span><span class="s4">.</span><span class="s1">add</span><span class="s4">(</span><span class="s6">'match'</span><span class="s4">);</span></p>
-<p class="p10"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s1">match</span><span class="s4">.</span><span class="s1">innerHTML</span><span class="s4"> = </span><span class="s6">`</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="team"&gt;</span><span class="s4">${</span><span class="s12">team1</span><span class="s4">}</span><span class="s1">&lt;/div&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="team"&gt;vs&lt;/div&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="team"&gt;</span><span class="s4">${</span><span class="s12">team2</span><span class="s4">}</span><span class="s1">&lt;/div&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="odds"&gt;Match Time: </span><span class="s4">${</span><span class="s12">time</span><span class="s4">}</span><span class="s1">&lt;/div&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="odds"&gt;Odds: </span><span class="s4">${</span><span class="s12">odds</span><span class="s4">}</span><span class="s1">&lt;/div&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">      </span>`</span><span class="s4">;</span></p>
-<p class="p10"><span class="s4"><span class="Apple-converted-space">      </span></span><span class="s1">bracket</span><span class="s4">.</span><span class="s1">appendChild</span><span class="s4">(</span><span class="s1">match</span><span class="s4">);</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">  </span></span><span class="s3">&lt;/</span><span class="s1">script</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s3">&lt;/</span><span class="s1">body</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s3">&lt;/</span><span class="s1">html</span><span class="s3">&gt;</span></p>
+  <header>
+    <h1>BKCS Croquet Tournament Bracket</h1>
+  </header>
+
+  <!-- Toggle Button -->
+  <button class="toggle-button" id="toggleButton" onclick="toggleView()">Switch to Admin Panel</button>
+
+  <!-- Public-facing bracket -->
+  <div class="bracket-container" id="bracket">
+    <!-- Stages and Matches will be dynamically populated here -->
+  </div>
+
+  <!-- Admin Panel -->
+  <div class="admin-panel hidden" id="adminPanel">
+    <h2>Admin Panel</h2>
+    <div id="teamInputs"></div>
+    <button onclick="saveTeams()">Generate Tournament</button>
+  </div>
+
+  <script>
+    const bracket = document.getElementById('bracket');
+    const adminPanel = document.getElementById('adminPanel');
+    const toggleButton = document.getElementById('toggleButton');
+
+    const teams = Array.from({ length: 25 }, (_, i) => ({
+      name: `Team ${i + 1}`,
+      members: "",
+      winningPercentage: "",
+    }));
+    const matchDuration = 40 * 60 * 1000;
+    const saturdayStart = new Date('2025-06-28T08:00:00');
+
+    let tournament = [];
+
+    function generateTeamInputs() {
+      const teamInputs = document.getElementById('teamInputs');
+      teamInputs.innerHTML = '';
+
+      teams.forEach((team, i) => {
+        const teamInput = document.createElement('div');
+        teamInput.classList.add('team-input');
+
+        teamInput.innerHTML = `
+          <label>Team ${i + 1} Name:</label>
+          <input type="text" id="team-${i}-name" placeholder="Team Name" value="${team.name}">
+          <label>Team ${i + 1} Members:</label>
+          <input type="text" id="team-${i}-members" placeholder="Members" value="${team.members}">
+          <label>Winning %:</label>
+          <input type="number" id="team-${i}-percent" placeholder="%" value="${team.winningPercentage}">
+        `;
+
+        teamInputs.appendChild(teamInput);
+      });
+    }
+
+    function saveTeams() {
+      teams.forEach((team, i) => {
+        team.name = document.getElementById(`team-${i}-name`).value || team.name;
+        team.members = document.getElementById(`team-${i}-members`).value;
+        team.winningPercentage = document.getElementById(`team-${i}-percent`).value;
+      });
+
+      generateBracket();
+    }
+
+    function generateBracket() {
+      let remainingTeams = [...teams];
+      const byes = (2 ** Math.ceil(Math.log2(remainingTeams.length))) - remainingTeams.length;
+
+      for (let i = 0; i < byes; i++) {
+        remainingTeams.push({ name: `Bye ${i + 1}` });
+      }
+
+      tournament = [];
+      let roundStart = saturdayStart;
+
+      while (remainingTeams.length > 1) {
+        const round = [];
+
+        for (let i = 0; i < remainingTeams.length; i += 2) {
+          const match = {
+            teams: [remainingTeams[i], remainingTeams[i + 1]],
+            time: new Date(roundStart.getTime() + round.length * matchDuration),
+            winner: null
+          };
+          round.push(match);
+        }
+
+        tournament.push(round);
+
+        remainingTeams = round.map((match, index) => ({ name: `Winner ${index + 1}` }));
+        roundStart = new Date(roundStart.getTime() + round.length * matchDuration);
+      }
+
+      updateBracket();
+    }
+
+    function updateBracket() {
+      bracket.innerHTML = '';
+
+      tournament.forEach((round, roundIndex) => {
+        const column = document.createElement('div');
+        column.classList.add('round');
+
+        const totalHeight = tournament[0].length * 120; // Base height for the first round
+        const matchHeight = Math.floor(totalHeight / round.length); // Match height scaling
+
+        round.forEach((match, matchIndex) => {
+          const matchElement = document.createElement('div');
+          matchElement.classList.add('match');
+
+          // Dynamically calculate top margin so the match is vertically centered
+          const marginTop = Math.max((matchHeight - 120) / 2, 0);
+          matchElement.style.marginTop = `${marginTop}px`;
+
+          const team1 = match.teams[0];
+          const team2 = match.teams[1] || { name: 'TBD', members: '', winningPercentage: '' };
+
+          matchElement.innerHTML = `
+            <span>${match.time.toLocaleDateString()} ${match.time.toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit'
+            })}</span>
+            <div class="team">${team1.name}<div class="percent">${team1.winningPercentage || 'N/A'}%</div></div>
+            <span>vs</span>
+            <div class="team">${team2.name}<div class="percent">${team2.winningPercentage || 'N/A'}%</div></div>
+          `;
+
+          column.appendChild(matchElement);
+        });
+
+        bracket.appendChild(column);
+      });
+    }
+
+    function toggleView() {
+      const isAdminView = adminPanel.classList.contains('hidden');
+      if (isAdminView) {
+        adminPanel.classList.remove('hidden');
+        bracket.classList.add('hidden');
+        toggleButton.textContent = 'Switch to Public View';
+        generateTeamInputs();
+      } else {
+        adminPanel.classList.add('hidden');
+        bracket.classList.remove('hidden');
+        toggleButton.textContent = 'Switch to Admin Panel';
+      }
+    }
+
+    generateTeamInputs();
+  </script>
 </body>
 </html>
+```
