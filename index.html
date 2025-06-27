@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>BKCS Croquet Tournament Bracket</title>
   <style>
     body {
@@ -20,91 +20,29 @@
     }
     .bracket-container {
       display: flex;
-      justify-content: space-between;
+      flex-wrap: nowrap;
       overflow-x: auto;
       margin: 2rem;
-      position: relative;
     }
     .round {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      flex: 1;
-      margin: 0 1rem;
-      position: relative;
+      margin-right: 1rem;
     }
     .match {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       background: white;
       border-radius: 8px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      margin: 2rem 0;
       padding: 1rem;
-      text-align: center;
-      width: 180px;
-      position: relative;
-    }
-    .line {
-      position: absolute;
-      background: #000;
-    }
-    .line.horizontal {
-      height: 2px;
-    }
-    .line.vertical {
-      width: 2px;
-    }
-    .match span {
-      font-size: 0.9rem;
-      color: #555;
-      margin-bottom: 0.5rem;
+      margin-bottom: 1rem;
+      width: 200px;
     }
     .team {
       font-weight: bold;
-      margin-top: .5rem;
     }
-    .team .percent {
-      font-size: 0.9rem;
+    .percent {
+      font-size: 0.8rem;
       color: #888;
-      font-style: italic;
-      margin-bottom: 0.5rem;
-    }
-    .admin-panel {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 1rem;
-      background: #fff;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      border-radius: 8px;
-    }
-    .team-input {
-      margin-bottom: 1rem;
-    }
-    .team-input label {
-      display: block;
-      margin-bottom: 0.5rem;
-    }
-    .team-input input {
-      width: 100%;
-      padding: 0.5rem;
-      font-size: 1rem;
-      margin-bottom: 1rem;
-    }
-    .match-input {
-      margin-bottom: 1.5rem;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 1rem;
-      background-color: #f9f9f9;
-    }
-    .match-input h3 {
-      margin-top: 0;
-    }
-    .match-input label {
-      font-size: 0.9rem;
-      color: #555;
     }
     .toggle-button {
       margin: 1rem auto;
@@ -115,10 +53,15 @@
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      text-align: center;
     }
-    .hidden {
+    .admin-panel {
       display: none;
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
   </style>
 </head>
@@ -127,167 +70,104 @@
     <h1>BKCS Croquet Tournament Bracket</h1>
   </header>
 
-  <!-- Toggle Button -->
-  <button class="toggle-button" id="toggleButton" onclick="toggleView()">Switch to Admin Panel</button>
+  <button class="toggle-button" id="toggleButton">Switch to Admin Panel</button>
 
-  <!-- Public-facing bracket -->
   <div class="bracket-container" id="bracket"></div>
 
-  <!-- Admin Panel -->
-  <div class="admin-panel hidden" id="adminPanel">
+  <div class="admin-panel" id="adminPanel">
     <h2>Admin Panel</h2>
     <div id="teamInputs"></div>
-    <h2>Match Details</h2>
     <div id="matchInputs"></div>
-    <button onclick="saveTeamsAndMatches()">Save Tournament Details</button>
   </div>
 
   <script>
-    const bracket = document.getElementById('bracket');
-    const adminPanel = document.getElementById('adminPanel');
-    const toggleButton = document.getElementById('toggleButton');
+    const toggleButton = document.getElementById("toggleButton");
+    const bracket = document.getElementById("bracket");
+    const adminPanel = document.getElementById("adminPanel");
 
-    const teams = Array.from({ length: 25 }, (_, i) => ({
-      name: `Team ${i + 1}`,
-      members: "",
-      winningPercentage: "",
-    }));
-    const matchDuration = 40 * 60 * 1000; // 40 minutes in milliseconds
-    const saturdayStart = new Date('2025-06-28T08:00:00');
-    let tournament = [];
+    const teams = [
+      { name: "Christi Odiaga & Willow Johnston", members: "Christi Odiaga, Willow Johnston", winningPercentage: 55 },
+      { name: "Bob Burke & Cory Watson", members: "Bob Burke, Cory Watson", winningPercentage: 45 }
+      // Add more teams as needed for demo
+    ];
 
-    async function loadDataFromGitHub() {
-      const response = await fetch(
-        "https://raw.githubusercontent.com/nickcreedon1/bkcs-bracket/main/data.json"
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        teams.splice(0, teams.length, ...data.teams);
-        tournament = data.tournament;
-        updateBracket();
-        generateTeamInputs();
-        generateMatchInputs();
-        console.log("Data loaded successfully from GitHub!");
-      } else {
-        console.error("Failed to load data from GitHub:", await response.json());
-      }
-    }
-
-    async function saveDataToGitHub() {
-      const data = { teams, tournament };
-
-      const shaResponse = await fetch(
-        "https://api.github.com/repos/nickcreedon1/bkcs-bracket/contents/data.json",
+    const tournament = [
+      [
         {
-          headers: {
-            Authorization: `token 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`,
-          },
+          teams: [
+            { name: "Christi Odiaga & Willow Johnston", winningPercentage: 55 },
+            { name: "Bob Burke & Cory Watson", winningPercentage: 45 }
+          ],
+          time: "2025-07-26T08:00:00Z",
+          winner: null
         }
-      );
+      ]
+    ];
 
-      if (shaResponse.ok) {
-        const { sha } = await shaResponse.json();
+    toggleButton.addEventListener("click", () => {
+      const isAdminVisible = adminPanel.style.display === "block";
+      adminPanel.style.display = isAdminVisible ? "none" : "block";
+      bracket.style.display = isAdminVisible ? "flex" : "none";
+      toggleButton.textContent = isAdminVisible ? "Switch to Admin Panel" : "Switch to Bracket View";
+    });
 
-        const updateResponse = await fetch(
-          "https://api.github.com/repos/nickcreedon1/bkcs-bracket/contents/data.json",
-          {
-            method: "PUT",
-            headers: {
-              Authorization: `token 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`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              message: "Update tournament and teams data",
-              content: btoa(JSON.stringify(data, null, 2)),
-              sha,
-            }),
-          }
-        );
+    function updateBracket() {
+      bracket.innerHTML = "";
+      tournament.forEach((round, roundIndex) => {
+        const roundDiv = document.createElement("div");
+        roundDiv.className = "round";
 
-        if (updateResponse.ok) {
-          console.log("Data successfully updated to GitHub!");
-        } else {
-          console.error("Failed to update file on GitHub:", await updateResponse.json());
-        }
-      } else {
-        console.error("Failed to fetch file SHA:", await shaResponse.json());
-      }
+        round.forEach(match => {
+          const matchDiv = document.createElement("div");
+          matchDiv.className = "match";
+
+          match.teams.forEach(team => {
+            matchDiv.innerHTML += `
+              <div class="team">${team.name}</div>
+              <div class="percent">${team.winningPercentage}%</div>
+            `;
+          });
+
+          matchDiv.innerHTML += `<div>${new Date(match.time).toLocaleString()}</div>`;
+          roundDiv.appendChild(matchDiv);
+        });
+
+        bracket.appendChild(roundDiv);
+      });
     }
 
-    function generateTeamInputs() {
-      const teamInputs = document.getElementById('teamInputs');
-      teamInputs.innerHTML = '';
+    function generateAdminPanel() {
+      const teamInputs = document.getElementById("teamInputs");
+      const matchInputs = document.getElementById("matchInputs");
 
+      teamInputs.innerHTML = "<h3>Teams</h3>";
       teams.forEach((team, i) => {
-        const teamInput = document.createElement('div');
-        teamInput.classList.add('team-input');
-
-        teamInput.innerHTML = `
-          <label>Team ${i + 1} Name:</label>
-          <input type="text" id="team-${i}-name" placeholder="Team Name" value="${team.name}">
-          <label>Team ${i + 1} Members:</label>
-          <input type="text" id="team-${i}-members" placeholder="Members" value="${team.members}">
-          <label>Winning %:</label>
-          <input type="number" id="team-${i}-percent" placeholder="%" value="${team.winningPercentage}">
+        teamInputs.innerHTML += `
+          <div>
+            <input type="text" value="${team.name}" id="team-name-${i}"/>
+            <input type="text" value="${team.members}" id="team-members-${i}"/>
+            <input type="number" value="${team.winningPercentage}" id="team-percent-${i}"/>
+          </div>
         `;
-
-        teamInputs.appendChild(teamInput);
       });
-    }
 
-    function generateMatchInputs() {
-      const matchInputs = document.getElementById('matchInputs');
-      matchInputs.innerHTML = '';
-
-      tournament.forEach((round, roundIndex) => {
-        round.forEach((match, matchIndex) => {
-          const matchInput = document.createElement('div');
-          matchInput.classList.add('match-input');
-
-          matchInput.innerHTML = `
-            <h3>Round ${roundIndex + 1}, Match ${matchIndex + 1}</h3>
-            <label>Team 1:</label>
-            <input type="text" id="round-${roundIndex}-match-${matchIndex}-team1" value="${match.teams[0]?.name || ''}">
-            <label>Team 2:</label>
-            <input type="text" id="round-${roundIndex}-match-${matchIndex}-team2" value="${match.teams[1]?.name || ''}">
-            <label>Winner:</label>
-            <select id="round-${roundIndex}-match-${matchIndex}-winner">
-              <option value="">Select Winner</option>
-              <option value="1">Team 1</option>
-              <option value="2">Team 2</option>
-            </select>
-            <label>Match Time:</label>
-            <input type="datetime-local" id="round-${roundIndex}-match-${matchIndex}-time" value="${new Date(match.time).toISOString().slice(0, -1)}">
+      matchInputs.innerHTML = "<h3>Matches</h3>";
+      tournament.forEach((round, ri) => {
+        round.forEach((match, mi) => {
+          matchInputs.innerHTML += `
+            <div>
+              <input type="text" value="${match.teams[0].name}" id="match-${ri}-${mi}-team1"/>
+              <input type="text" value="${match.teams[1].name}" id="match-${ri}-${mi}-team2"/>
+              <input type="datetime-local" value="${match.time.slice(0,16)}" id="match-${ri}-${mi}-time"/>
+            </div>
           `;
-
-          matchInputs.appendChild(matchInput);
         });
       });
     }
 
-    function saveTeamsAndMatches() {
-      // Save team edits
-      teams.forEach((team, i) => {
-        team.name = document.getElementById(`team-${i}-name`).value || team.name;
-        team.members = document.getElementById(`team-${i}-members`).value;
-        team.winningPercentage = document.getElementById(`team-${i}-percent`).value;
-      });
-
-      // Save match edits
-      tournament.forEach((round, roundIndex) => {
-        round.forEach((match, matchIndex) => {
-          match.teams[0].name = document.getElementById(`round-${roundIndex}-match-${matchIndex}-team1`).value;
-          match.teams[1].name = document.getElementById(`round-${roundIndex}-match-${matchIndex}-team2`).value;
-          match.winner = document.getElementById(`round-${roundIndex}-match-${matchIndex}-winner`).value;
-          match.time = new Date(document.getElementById(`round-${roundIndex}-match-${matchIndex}-time`).value).toISOString();
-        });
-      });
-
-      saveDataToGitHub();
-    }
-
-    loadDataFromGitHub();
+    updateBracket();
+    generateAdminPanel();
   </script>
 </body>
 </html>
+
