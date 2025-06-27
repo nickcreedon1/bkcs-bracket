@@ -20,25 +20,28 @@
     }
     .bracket-container {
       display: flex;
-      flex-wrap: nowrap;
       overflow-x: auto;
-      margin: 2rem;
+      padding: 2rem;
+      gap: 2rem;
+      align-items: stretch;
     }
     .round {
       display: flex;
       flex-direction: column;
-      margin-right: 1rem;
+      justify-content: center;
+      gap: 2rem;
+      min-width: 220px;
     }
     .match {
       background: white;
       border-radius: 8px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       padding: 1rem;
-      margin-bottom: 1rem;
-      width: 200px;
+      text-align: center;
     }
     .team {
       font-weight: bold;
+      margin-bottom: 0.25rem;
     }
     .percent {
       font-size: 0.8rem;
@@ -112,9 +115,14 @@
 
     function updateBracket() {
       bracket.innerHTML = "";
-      tournament.forEach((round) => {
+      tournament.forEach((round, index) => {
         const roundDiv = document.createElement("div");
         roundDiv.className = "round";
+
+        const roundTitle = document.createElement("h3");
+        roundTitle.textContent = getRoundName(index);
+        roundTitle.style.textAlign = "center";
+        roundDiv.appendChild(roundTitle);
 
         round.forEach(match => {
           const matchDiv = document.createElement("div");
@@ -123,16 +131,24 @@
           match.teams.forEach(team => {
             matchDiv.innerHTML += `
               <div class="team">${team.name}</div>
-              <div class="percent">${team.winningPercentage}%</div>
             `;
           });
 
-          matchDiv.innerHTML += `<div>${new Date(match.time).toLocaleString()}</div>`;
           roundDiv.appendChild(matchDiv);
         });
 
         bracket.appendChild(roundDiv);
       });
+    }
+
+    function getRoundName(index) {
+      const names = [
+        "Round 1",
+        "Quarterfinals",
+        "Semifinals",
+        "Championship"
+      ];
+      return names[index] || `Round ${index + 1}`;
     }
 
     function generateAdminPanel() {
@@ -145,19 +161,17 @@
           <div>
             <input type="text" value="${team.name}" />
             <input type="text" value="${team.members}" />
-            <input type="number" value="${team.winningPercentage}" />
           </div>
         `;
       });
 
       matchInputs.innerHTML = "<h3>Matches</h3>";
-      tournament.forEach((round) => {
-        round.forEach((match) => {
+      tournament.forEach((round, rIndex) => {
+        round.forEach((match, mIndex) => {
           matchInputs.innerHTML += `
             <div>
               <input type="text" value="${match.teams[0].name}" />
               <input type="text" value="${match.teams[1].name}" />
-              <input type="datetime-local" value="${match.time.slice(0,16)}" />
             </div>
           `;
         });
