@@ -17,16 +17,15 @@
       text-align: center;
     }
     .bracket {
-      display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: minmax(220px, 1fr);
+      display: flex;
       gap: 2rem;
       padding: 2rem;
+      overflow-x: auto;
     }
     .round {
-      display: grid;
-      grid-template-rows: repeat(16, 1fr);
-      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
     }
     .match {
       background: #fff;
@@ -34,18 +33,7 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       padding: 0.5rem;
       text-align: center;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    .connector {
-      position: absolute;
-      right: -1rem;
-      top: 50%;
-      width: 1rem;
-      height: 2px;
-      background: #999;
+      min-width: 200px;
     }
     .team {
       padding: 0.25rem;
@@ -58,6 +46,11 @@
     .winner {
       background: #2e7d32;
       color: white;
+    }
+    .time {
+      font-size: 0.8rem;
+      color: #555;
+      margin-top: 0.25rem;
     }
   </style>
 </head>
@@ -84,39 +77,36 @@
         const col = document.createElement("div");
         col.className = "round";
 
-        const matches = Array(16).fill(null);
-        let matchIdx = 0;
-        const spacing = 16 / round.length;
-
-        round.forEach((match, i) => {
-          matches[Math.floor(i * spacing)] = match;
-        });
-
-        matches.forEach(match => {
+        round.forEach((match) => {
           const matchDiv = document.createElement("div");
-          if (match) {
-            matchDiv.className = "match";
-            match.teams.forEach(team => {
-              const div = document.createElement("div");
-              div.className = "team";
-              div.textContent = `${team.name} (${team.winningPercentage}%)`;
-              if (match.winner === team.name) div.classList.add("winner");
-              div.onclick = () => {
-                match.winner = team.name;
-                const next = tournament[rIdx + 1];
-                if (next) {
-                  const nextMatch = next[Math.floor(i / 2)];
-                  const slot = i % 2;
-                  nextMatch.teams[slot].name = team.name;
-                }
-                renderBracket();
+          matchDiv.className = "match";
+
+          match.teams.forEach(team => {
+            const div = document.createElement("div");
+            div.className = "team";
+            div.textContent = `${team.name} (${team.winningPercentage}%)`;
+            if (match.winner === team.name) div.classList.add("winner");
+            div.onclick = () => {
+              match.winner = team.name;
+              const next = tournament[rIdx + 1];
+              if (next) {
+                const nextMatch = next[Math.floor(round.indexOf(match) / 2)];
+                const slot = round.indexOf(match) % 2;
+                nextMatch.teams[slot].name = team.name;
               }
-              matchDiv.appendChild(div);
-            });
-            const conn = document.createElement("div");
-            conn.className = "connector";
-            matchDiv.appendChild(conn);
+              renderBracket();
+            }
+            matchDiv.appendChild(div);
+          });
+
+          if (match.time) {
+            const timeDiv = document.createElement("div");
+            timeDiv.className = "time";
+            const d = new Date(match.time);
+            timeDiv.textContent = d.toLocaleString();
+            matchDiv.appendChild(timeDiv);
           }
+
           col.appendChild(matchDiv);
         });
 
