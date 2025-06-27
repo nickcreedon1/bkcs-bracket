@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BKCS Croquet Tournament Bracket</title>
   <style>
     body {
@@ -17,14 +17,15 @@
       color: white;
       padding: 1rem;
       text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
-    .bracket-container {
-      display: flex;
-      overflow-x: auto;
+    .bracket {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(200px, 1fr);
+      gap: 2rem;
       padding: 2rem;
-      gap: 3rem;
-      align-items: flex-start;
-      position: relative;
+      overflow-x: auto;
     }
     .round {
       display: flex;
@@ -32,24 +33,17 @@
       gap: 2rem;
       position: relative;
     }
-    .round h3 {
-      text-align: center;
-      color: #2e7d32;
-      margin-bottom: 0.5rem;
-    }
     .match {
       background: white;
       border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      padding: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 0.5rem;
       text-align: center;
-      min-width: 180px;
       position: relative;
     }
     .team {
-      font-weight: bold;
-      margin: 0.5rem 0;
-      padding: 0.3rem;
+      padding: 0.25rem;
+      margin: 0.25rem 0;
       cursor: pointer;
       border-radius: 4px;
     }
@@ -64,6 +58,8 @@
       position: absolute;
       top: 0;
       left: 0;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
     }
   </style>
@@ -72,101 +68,88 @@
   <header>
     <h1>BKCS Croquet Tournament Bracket</h1>
   </header>
-  <div class="bracket-container" id="bracket-container"></div>
-  <svg id="bracket-lines"></svg>
-
+  <div class="bracket" id="bracket"></div>
+  <svg id="connectors"></svg>
   <script>
-    let teams = [];
     let tournament = [];
 
     async function loadData() {
-      const response = await fetch("https://nickcreedon1.github.io/bkcs-bracket/data.json");
-      if (response.ok) {
-        const data = await response.json();
-        teams = data.teams;
-        tournament = data.tournament;
-        renderBracket();
-        drawLines();
-      } else {
-        console.error("Failed to load data");
-      }
+      const res = await fetch("https://nickcreedon1.github.io/bkcs-bracket/data.json");
+      const data = await res.json();
+      tournament = data.tournament;
+      renderBracket();
     }
 
     function renderBracket() {
-      const container = document.getElementById("bracket-container");
-      container.innerHTML = "";
+      const bracket = document.getElementById("bracket");
+      const svg = document.getElementById("connectors");
+      bracket.innerHTML = "";
+      svg.innerHTML = "";
+
+      const positions = [];
+
       tournament.forEach((round, rIdx) => {
         const roundDiv = document.createElement("div");
         roundDiv.className = "round";
-        const title = document.createElement("h3");
-        title.textContent = ["Round 1","Round 2","QF","SF","Final"][rIdx] || `Round ${rIdx+1}`;
-        roundDiv.appendChild(title);
         round.forEach((match, mIdx) => {
           const matchDiv = document.createElement("div");
           matchDiv.className = "match";
-          matchDiv.dataset.rIdx = rIdx;
-          matchDiv.dataset.mIdx = mIdx;
           match.teams.forEach(team => {
             const teamDiv = document.createElement("div");
             teamDiv.className = "team";
             teamDiv.textContent = `${team.name} (${team.winningPercentage}%)`;
-            if (match.winner === team.name) {
-              teamDiv.classList.add("winner");
-            }
+            if (match.winner === team.name) teamDiv.classList.add("winner");
             teamDiv.onclick = () => {
               match.winner = team.name;
-              advanceWinner(rIdx, mIdx, team.name);
+              const nextRound = tournament[rIdx + 1];
+              if (nextRound) {
+                const targetMatch = nextRound[Math.floor(mIdx / 2)];
+                const slot = mIdx % 2;
+                targetMatch.teams[slot].name = team.name;
+              }
               renderBracket();
-              drawLines();
             };
             matchDiv.appendChild(teamDiv);
           });
           roundDiv.appendChild(matchDiv);
         });
-        container.appendChild(roundDiv);
+        bracket.appendChild(roundDiv);
       });
+
+      requestAnimationFrame(() => drawConnectors());
     }
 
-    function advanceWinner(rIdx, mIdx, winnerName) {
-      if (!tournament[rIdx+1]) return;
-      const next = tournament[rIdx+1][Math.floor(mIdx/2)];
-      const slot = mIdx % 2;
-      if (next && next.teams[slot]) {
-        next.teams[slot].name = winnerName;
-      }
-    }
-
-    function drawLines() {
-      const svg = document.getElementById("bracket-lines");
+    function drawConnectors() {
+      const svg = document.getElementById("connectors");
       svg.innerHTML = "";
-      const rect = document.getElementById("bracket-container").getBoundingClientRect();
-      svg.setAttribute("width", rect.width);
-      svg.setAttribute("height", rect.height);
-      document.querySelectorAll(".round").forEach((roundDiv, rIdx) => {
-        if (!tournament[rIdx+1]) return;
-        const nextRoundDiv = document.querySelectorAll(".round")[rIdx+1];
-        roundDiv.querySelectorAll(".match").forEach((matchDiv, mIdx) => {
-          const from = matchDiv.getBoundingClientRect();
-          const nextMatchDiv = nextRoundDiv.querySelectorAll(".match")[Math.floor(mIdx/2)];
-          if (!nextMatchDiv) return;
-          const to = nextMatchDiv.getBoundingClientRect();
-          const x1 = from.right - rect.left;
-          const y1 = from.top + from.height/2 - rect.top;
-          const x2 = to.left - rect.left;
-          const y2 = to.top + to.height/2 - rect.top;
+      const rounds = [...document.querySelectorAll(".round")];
+
+      rounds.forEach((round, rIdx) => {
+        if (rIdx === rounds.length -1) return;
+        const currMatches = round.querySelectorAll(".match");
+        const nextMatches = rounds[rIdx + 1].querySelectorAll(".match");
+        currMatches.forEach((match, mIdx) => {
+          const rect1 = match.getBoundingClientRect();
+          const target = nextMatches[Math.floor(mIdx/2)];
+          const rect2 = target.getBoundingClientRect();
+          const x1 = rect1.right + window.scrollX;
+          const y1 = rect1.top + rect1.height /2 + window.scrollY;
+          const x2 = rect2.left + window.scrollX;
+          const y2 = rect2.top + rect2.height /2 + window.scrollY;
+
           const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
           line.setAttribute("x1", x1);
           line.setAttribute("y1", y1);
           line.setAttribute("x2", x2);
           line.setAttribute("y2", y2);
-          line.setAttribute("stroke", "#bbb");
+          line.setAttribute("stroke", "#999");
           line.setAttribute("stroke-width", "2");
           svg.appendChild(line);
         });
       });
     }
 
-    window.addEventListener('resize', drawLines);
+    window.addEventListener('resize', drawConnectors);
     loadData();
   </script>
 </body>
