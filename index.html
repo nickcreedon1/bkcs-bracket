@@ -17,15 +17,17 @@
       text-align: center;
     }
     .bracket {
-      display: flex;
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(220px, 1fr);
       gap: 2rem;
       padding: 2rem;
       overflow-x: auto;
     }
     .round {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
+      display: grid;
+      grid-template-rows: repeat(16, 1fr);
+      position: relative;
     }
     .match {
       background: #fff;
@@ -33,7 +35,19 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       padding: 0.5rem;
       text-align: center;
-      min-width: 200px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 60px;
+    }
+    .connector {
+      position: absolute;
+      right: -1rem;
+      top: 50%;
+      width: 1rem;
+      height: 2px;
+      background: #999;
     }
     .team {
       padding: 0.25rem;
@@ -77,9 +91,11 @@
         const col = document.createElement("div");
         col.className = "round";
 
-        round.forEach((match) => {
+        const slots = 16 / Math.pow(2, rIdx);
+        round.forEach((match, idx) => {
           const matchDiv = document.createElement("div");
           matchDiv.className = "match";
+          matchDiv.style.gridRow = `${(idx * (16 / slots)) + 1} / span ${16 / slots}`;
 
           match.teams.forEach(team => {
             const div = document.createElement("div");
@@ -90,12 +106,12 @@
               match.winner = team.name;
               const next = tournament[rIdx + 1];
               if (next) {
-                const nextMatch = next[Math.floor(round.indexOf(match) / 2)];
-                const slot = round.indexOf(match) % 2;
+                const nextMatch = next[Math.floor(idx / 2)];
+                const slot = idx % 2;
                 nextMatch.teams[slot].name = team.name;
               }
               renderBracket();
-            }
+            };
             matchDiv.appendChild(div);
           });
 
@@ -106,6 +122,10 @@
             timeDiv.textContent = d.toLocaleString();
             matchDiv.appendChild(timeDiv);
           }
+
+          const conn = document.createElement("div");
+          conn.className = "connector";
+          matchDiv.appendChild(conn);
 
           col.appendChild(matchDiv);
         });
