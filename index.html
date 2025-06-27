@@ -20,28 +20,29 @@
       display: grid;
       grid-auto-flow: column;
       grid-auto-columns: minmax(220px, 1fr);
-      gap: 1rem;
+      gap: 2rem;
       padding: 2rem;
     }
     .round {
       display: grid;
-      grid-template-rows: repeat(var(--slots), 1fr);
-      gap: 1rem;
+      grid-template-rows: repeat(16, 1fr);
       position: relative;
     }
     .match {
-      background: white;
+      background: #fff;
       border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       padding: 0.5rem;
       text-align: center;
       position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
-    .match::after {
-      content: "";
+    .connector {
       position: absolute;
+      right: -1rem;
       top: 50%;
-      right: -0.5rem;
       width: 1rem;
       height: 2px;
       background: #999;
@@ -57,12 +58,6 @@
     .winner {
       background: #2e7d32;
       color: white;
-    }
-    .connector {
-      position: absolute;
-      width: 1rem;
-      height: 2px;
-      background: #999;
     }
   </style>
 </head>
@@ -85,46 +80,46 @@
       const bracket = document.getElementById("bracket");
       bracket.innerHTML = "";
 
-      const totalSlots = Math.pow(2, tournament.length);
-
       tournament.forEach((round, rIdx) => {
         const col = document.createElement("div");
         col.className = "round";
-        col.style.setProperty('--slots', totalSlots / Math.pow(2, rIdx));
 
+        const matches = Array(16).fill(null);
         let matchIdx = 0;
-        for (let i = 0; i < totalSlots / Math.pow(2, rIdx); i++) {
-          if (i % 2 === 0 && matchIdx < round.length) {
-            const matchData = round[matchIdx++];
-            const matchDiv = document.createElement("div");
-            matchDiv.className = "match";
+        const spacing = 16 / round.length;
 
-            matchData.teams.forEach(team => {
+        round.forEach((match, i) => {
+          matches[Math.floor(i * spacing)] = match;
+        });
+
+        matches.forEach(match => {
+          const matchDiv = document.createElement("div");
+          if (match) {
+            matchDiv.className = "match";
+            match.teams.forEach(team => {
               const div = document.createElement("div");
               div.className = "team";
               div.textContent = `${team.name} (${team.winningPercentage}%)`;
-              if (matchData.winner === team.name) div.classList.add("winner");
+              if (match.winner === team.name) div.classList.add("winner");
               div.onclick = () => {
-                matchData.winner = team.name;
+                match.winner = team.name;
                 const next = tournament[rIdx + 1];
                 if (next) {
-                  const nextMatch = next[Math.floor((i)/2)];
-                  const slot = (i/2)%1 === 0 ? 0 : 1;
+                  const nextMatch = next[Math.floor(i / 2)];
+                  const slot = i % 2;
                   nextMatch.teams[slot].name = team.name;
                 }
                 renderBracket();
               }
               matchDiv.appendChild(div);
             });
-
-            col.appendChild(matchDiv);
-          } else {
-            const empty = document.createElement("div");
-            empty.className = "match";
-            empty.style.visibility = "hidden";
-            col.appendChild(empty);
+            const conn = document.createElement("div");
+            conn.className = "connector";
+            matchDiv.appendChild(conn);
           }
-        }
+          col.appendChild(matchDiv);
+        });
+
         bracket.appendChild(col);
       });
     }
@@ -133,4 +128,3 @@
   </script>
 </body>
 </html>
-
