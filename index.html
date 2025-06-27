@@ -1,43 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BKCS Croquet Tournament Bracket</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
-      padding: 0;
       background: #f0f2f5;
-      color: #333;
     }
     header {
-      background-color: #2e7d32;
+      background: #2e7d32;
       color: white;
-      padding: 1rem;
       text-align: center;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      padding: 1rem;
     }
     .bracket {
       display: grid;
       grid-auto-flow: column;
-      grid-auto-columns: minmax(200px, 1fr);
-      gap: 2rem;
+      grid-auto-columns: minmax(220px, 1fr);
+      gap: 1rem;
       padding: 2rem;
-      overflow-x: auto;
+      position: relative;
     }
     .round {
       display: flex;
       flex-direction: column;
+      align-items: center;
       gap: 2rem;
       position: relative;
     }
     .match {
-      background: white;
+      background: #fff;
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       padding: 0.5rem;
+      width: 200px;
       text-align: center;
       position: relative;
     }
@@ -54,6 +53,10 @@
       background: #2e7d32;
       color: white;
     }
+    .round-title {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
     svg {
       position: absolute;
       top: 0;
@@ -69,7 +72,8 @@
     <h1>BKCS Croquet Tournament Bracket</h1>
   </header>
   <div class="bracket" id="bracket"></div>
-  <svg id="connectors"></svg>
+  <svg id="lines"></svg>
+
   <script>
     let tournament = [];
 
@@ -82,60 +86,70 @@
 
     function renderBracket() {
       const bracket = document.getElementById("bracket");
-      const svg = document.getElementById("connectors");
+      const svg = document.getElementById("lines");
       bracket.innerHTML = "";
       svg.innerHTML = "";
 
-      const positions = [];
+      const matchElements = [];
 
       tournament.forEach((round, rIdx) => {
-        const roundDiv = document.createElement("div");
-        roundDiv.className = "round";
+        const col = document.createElement("div");
+        col.className = "round";
+        const title = document.createElement("div");
+        title.className = "round-title";
+        title.textContent = getRoundName(rIdx);
+        col.appendChild(title);
+
+        matchElements[rIdx] = [];
+
         round.forEach((match, mIdx) => {
-          const matchDiv = document.createElement("div");
-          matchDiv.className = "match";
+          const box = document.createElement("div");
+          box.className = "match";
+
           match.teams.forEach(team => {
-            const teamDiv = document.createElement("div");
-            teamDiv.className = "team";
-            teamDiv.textContent = `${team.name} (${team.winningPercentage}%)`;
-            if (match.winner === team.name) teamDiv.classList.add("winner");
-            teamDiv.onclick = () => {
+            const div = document.createElement("div");
+            div.className = "team";
+            div.textContent = `${team.name} (${team.winningPercentage}%)`;
+            if (match.winner === team.name) div.classList.add("winner");
+            div.onclick = () => {
               match.winner = team.name;
-              const nextRound = tournament[rIdx + 1];
-              if (nextRound) {
-                const targetMatch = nextRound[Math.floor(mIdx / 2)];
+              const next = tournament[rIdx + 1];
+              if (next) {
+                const nextMatch = next[Math.floor(mIdx / 2)];
                 const slot = mIdx % 2;
-                targetMatch.teams[slot].name = team.name;
+                nextMatch.teams[slot].name = team.name;
               }
               renderBracket();
-            };
-            matchDiv.appendChild(teamDiv);
+            }
+            box.appendChild(div);
           });
-          roundDiv.appendChild(matchDiv);
+
+          col.appendChild(box);
+          matchElements[rIdx].push(box);
         });
-        bracket.appendChild(roundDiv);
+        bracket.appendChild(col);
       });
 
-      requestAnimationFrame(() => drawConnectors());
+      requestAnimationFrame(() => drawLines(matchElements));
     }
 
-    function drawConnectors() {
-      const svg = document.getElementById("connectors");
+    function drawLines(matches) {
+      const svg = document.getElementById("lines");
       svg.innerHTML = "";
-      const rounds = [...document.querySelectorAll(".round")];
 
-      rounds.forEach((round, rIdx) => {
-        if (rIdx === rounds.length -1) return;
-        const currMatches = round.querySelectorAll(".match");
-        const nextMatches = rounds[rIdx + 1].querySelectorAll(".match");
-        currMatches.forEach((match, mIdx) => {
-          const rect1 = match.getBoundingClientRect();
-          const target = nextMatches[Math.floor(mIdx/2)];
-          const rect2 = target.getBoundingClientRect();
+      matches.forEach((round, rIdx) => {
+        if (!matches[rIdx + 1]) return;
+        round.forEach((mEl, mIdx) => {
+          const nextEl = matches[rIdx + 1][Math.floor(mIdx / 2)];
+          if (!nextEl) return;
+
+          const rect1 = mEl.getBoundingClientRect();
+          const rect2 = nextEl.getBoundingClientRect();
+
           const x1 = rect1.right + window.scrollX;
-          const y1 = rect1.top + rect1.height /2 + window.scrollY;
+          const y1 = rect1.top + rect1.height / 2 + window.scrollY;
           const x2 = rect2.left + window.scrollX;
-          const y2 = rect2.top + rect2.height /2 + window.scrollY;
+          const y2 = rect2.top + rect2.height / 2 + window.scrollY;
 
           const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
           line.setAttribute("x1", x1);
@@ -149,7 +163,12 @@
       });
     }
 
-    window.addEventListener('resize', drawConnectors);
+    function getRoundName(idx) {
+      const names = ["Round 1", "Round 2", "Quarterfinals", "Semifinals", "Final"];
+      return names[idx] || `Round ${idx + 1}`;
+    }
+
+    window.addEventListener('resize', () => renderBracket());
     loadData();
   </script>
 </body>
