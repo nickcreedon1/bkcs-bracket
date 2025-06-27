@@ -7,14 +7,14 @@
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
       background: #f0f2f5;
+      margin: 0;
     }
     header {
       background: #2e7d32;
       color: white;
-      text-align: center;
       padding: 1rem;
+      text-align: center;
     }
     .bracket {
       display: grid;
@@ -22,29 +22,34 @@
       grid-auto-columns: minmax(220px, 1fr);
       gap: 1rem;
       padding: 2rem;
-      position: relative;
     }
     .round {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2rem;
+      display: grid;
+      grid-template-rows: repeat(var(--slots), 1fr);
+      gap: 1rem;
       position: relative;
     }
     .match {
-      background: #fff;
+      background: white;
       border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       padding: 0.5rem;
-      width: 200px;
       text-align: center;
       position: relative;
     }
+    .match::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: -0.5rem;
+      width: 1rem;
+      height: 2px;
+      background: #999;
+    }
     .team {
       padding: 0.25rem;
-      margin: 0.25rem 0;
-      cursor: pointer;
       border-radius: 4px;
+      cursor: pointer;
     }
     .team:hover {
       background: #e0e0e0;
@@ -53,17 +58,11 @@
       background: #2e7d32;
       color: white;
     }
-    .round-title {
-      font-weight: bold;
-      margin-bottom: 0.5rem;
-    }
-    svg {
+    .connector {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
+      width: 1rem;
+      height: 2px;
+      background: #999;
     }
   </style>
 </head>
@@ -72,8 +71,6 @@
     <h1>BKCS Croquet Tournament Bracket</h1>
   </header>
   <div class="bracket" id="bracket"></div>
-  <svg id="lines"></svg>
-
   <script>
     let tournament = [];
 
@@ -86,90 +83,54 @@
 
     function renderBracket() {
       const bracket = document.getElementById("bracket");
-      const svg = document.getElementById("lines");
       bracket.innerHTML = "";
-      svg.innerHTML = "";
 
-      const matchElements = [];
+      const totalSlots = Math.pow(2, tournament.length);
 
       tournament.forEach((round, rIdx) => {
         const col = document.createElement("div");
         col.className = "round";
-        const title = document.createElement("div");
-        title.className = "round-title";
-        title.textContent = getRoundName(rIdx);
-        col.appendChild(title);
+        col.style.setProperty('--slots', totalSlots / Math.pow(2, rIdx));
 
-        matchElements[rIdx] = [];
+        let matchIdx = 0;
+        for (let i = 0; i < totalSlots / Math.pow(2, rIdx); i++) {
+          if (i % 2 === 0 && matchIdx < round.length) {
+            const matchData = round[matchIdx++];
+            const matchDiv = document.createElement("div");
+            matchDiv.className = "match";
 
-        round.forEach((match, mIdx) => {
-          const box = document.createElement("div");
-          box.className = "match";
-
-          match.teams.forEach(team => {
-            const div = document.createElement("div");
-            div.className = "team";
-            div.textContent = `${team.name} (${team.winningPercentage}%)`;
-            if (match.winner === team.name) div.classList.add("winner");
-            div.onclick = () => {
-              match.winner = team.name;
-              const next = tournament[rIdx + 1];
-              if (next) {
-                const nextMatch = next[Math.floor(mIdx / 2)];
-                const slot = mIdx % 2;
-                nextMatch.teams[slot].name = team.name;
+            matchData.teams.forEach(team => {
+              const div = document.createElement("div");
+              div.className = "team";
+              div.textContent = `${team.name} (${team.winningPercentage}%)`;
+              if (matchData.winner === team.name) div.classList.add("winner");
+              div.onclick = () => {
+                matchData.winner = team.name;
+                const next = tournament[rIdx + 1];
+                if (next) {
+                  const nextMatch = next[Math.floor((i)/2)];
+                  const slot = (i/2)%1 === 0 ? 0 : 1;
+                  nextMatch.teams[slot].name = team.name;
+                }
+                renderBracket();
               }
-              renderBracket();
-            }
-            box.appendChild(div);
-          });
+              matchDiv.appendChild(div);
+            });
 
-          col.appendChild(box);
-          matchElements[rIdx].push(box);
-        });
+            col.appendChild(matchDiv);
+          } else {
+            const empty = document.createElement("div");
+            empty.className = "match";
+            empty.style.visibility = "hidden";
+            col.appendChild(empty);
+          }
+        }
         bracket.appendChild(col);
       });
-
-      requestAnimationFrame(() => drawLines(matchElements));
     }
 
-    function drawLines(matches) {
-      const svg = document.getElementById("lines");
-      svg.innerHTML = "";
-
-      matches.forEach((round, rIdx) => {
-        if (!matches[rIdx + 1]) return;
-        round.forEach((mEl, mIdx) => {
-          const nextEl = matches[rIdx + 1][Math.floor(mIdx / 2)];
-          if (!nextEl) return;
-
-          const rect1 = mEl.getBoundingClientRect();
-          const rect2 = nextEl.getBoundingClientRect();
-
-          const x1 = rect1.right + window.scrollX;
-          const y1 = rect1.top + rect1.height / 2 + window.scrollY;
-          const x2 = rect2.left + window.scrollX;
-          const y2 = rect2.top + rect2.height / 2 + window.scrollY;
-
-          const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-          line.setAttribute("x1", x1);
-          line.setAttribute("y1", y1);
-          line.setAttribute("x2", x2);
-          line.setAttribute("y2", y2);
-          line.setAttribute("stroke", "#999");
-          line.setAttribute("stroke-width", "2");
-          svg.appendChild(line);
-        });
-      });
-    }
-
-    function getRoundName(idx) {
-      const names = ["Round 1", "Round 2", "Quarterfinals", "Semifinals", "Final"];
-      return names[idx] || `Round ${idx + 1}`;
-    }
-
-    window.addEventListener('resize', () => renderBracket());
     loadData();
   </script>
 </body>
 </html>
+
