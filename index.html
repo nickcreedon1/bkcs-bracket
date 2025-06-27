@@ -138,7 +138,7 @@
           const matchDiv = document.createElement("div");
           matchDiv.className = "match";
 
-          match.teams.forEach((team, teamIndex) => {
+          match.teams.forEach((team) => {
             const teamDiv = document.createElement("div");
             teamDiv.className = "team";
             teamDiv.textContent = team.name;
@@ -184,13 +184,12 @@
     }
 
     function getRoundName(index) {
-      const names = [
-        "Round 1",
-        "Quarterfinals",
-        "Semifinals",
-        "Championship"
-      ];
-      return names[index] || `Round ${index + 1}`;
+      const totalRounds = tournament.length;
+      if (index === 0) return "Round 1";
+      if (index === totalRounds - 1) return "Championship";
+      if (index === totalRounds - 2) return "Semifinals";
+      if (index === totalRounds - 3) return "Quarterfinals";
+      return `Round ${index + 1}`;
     }
 
     function generateAdminPanel() {
