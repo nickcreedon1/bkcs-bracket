@@ -41,7 +41,17 @@
     }
     .team {
       font-weight: bold;
-      margin-bottom: 0.25rem;
+      margin: 0.5rem 0;
+      padding: 0.25rem;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .team:hover {
+      background: #e0e0e0;
+    }
+    .winner {
+      background-color: #4caf50;
+      color: white;
     }
     .percent {
       font-size: 0.8rem;
@@ -115,30 +125,62 @@
 
     function updateBracket() {
       bracket.innerHTML = "";
-      tournament.forEach((round, index) => {
+      tournament.forEach((round, roundIndex) => {
         const roundDiv = document.createElement("div");
         roundDiv.className = "round";
 
         const roundTitle = document.createElement("h3");
-        roundTitle.textContent = getRoundName(index);
+        roundTitle.textContent = getRoundName(roundIndex);
         roundTitle.style.textAlign = "center";
         roundDiv.appendChild(roundTitle);
 
-        round.forEach(match => {
+        round.forEach((match, matchIndex) => {
           const matchDiv = document.createElement("div");
           matchDiv.className = "match";
 
-          match.teams.forEach(team => {
-            matchDiv.innerHTML += `
-              <div class="team">${team.name}</div>
-            `;
+          match.teams.forEach((team, teamIndex) => {
+            const teamDiv = document.createElement("div");
+            teamDiv.className = "team";
+            teamDiv.textContent = team.name;
+
+            const percentDiv = document.createElement("div");
+            percentDiv.className = "percent";
+            percentDiv.textContent = team.winningPercentage + "%";
+            teamDiv.appendChild(percentDiv);
+
+            if (match.winner === team.name) {
+              teamDiv.classList.add("winner");
+            }
+
+            teamDiv.addEventListener("click", () => {
+              match.winner = team.name;
+              autoAdvanceWinner(roundIndex, matchIndex, team.name);
+              updateBracket();
+            });
+
+            matchDiv.appendChild(teamDiv);
           });
+
+          const timeDiv = document.createElement("div");
+          timeDiv.style.fontSize = "0.8rem";
+          timeDiv.style.color = "#666";
+          timeDiv.textContent = new Date(match.time).toLocaleString();
+          matchDiv.appendChild(timeDiv);
 
           roundDiv.appendChild(matchDiv);
         });
 
         bracket.appendChild(roundDiv);
       });
+    }
+
+    function autoAdvanceWinner(roundIndex, matchIndex, winnerName) {
+      const nextRoundIndex = roundIndex + 1;
+      if (!tournament[nextRoundIndex]) return;
+      const nextMatchIndex = Math.floor(matchIndex / 2);
+      const slot = matchIndex % 2;
+      if (!tournament[nextRoundIndex][nextMatchIndex]) return;
+      tournament[nextRoundIndex][nextMatchIndex].teams[slot].name = winnerName;
     }
 
     function getRoundName(index) {
@@ -166,8 +208,8 @@
       });
 
       matchInputs.innerHTML = "<h3>Matches</h3>";
-      tournament.forEach((round, rIndex) => {
-        round.forEach((match, mIndex) => {
+      tournament.forEach((round) => {
+        round.forEach((match) => {
           matchInputs.innerHTML += `
             <div>
               <input type="text" value="${match.teams[0].name}" />
@@ -182,4 +224,3 @@
   </script>
 </body>
 </html>
-
