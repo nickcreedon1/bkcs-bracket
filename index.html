@@ -92,6 +92,20 @@
       font-size: 1rem;
       margin-bottom: 1rem;
     }
+    .match-input {
+      margin-bottom: 1.5rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 1rem;
+      background-color: #f9f9f9;
+    }
+    .match-input h3 {
+      margin-top: 0;
+    }
+    .match-input label {
+      font-size: 0.9rem;
+      color: #555;
+    }
     .toggle-button {
       margin: 1rem auto;
       display: block;
@@ -123,7 +137,9 @@
   <div class="admin-panel hidden" id="adminPanel">
     <h2>Admin Panel</h2>
     <div id="teamInputs"></div>
-    <button onclick="saveTeams()">Generate Tournament</button>
+    <h2>Match Details</h2>
+    <div id="matchInputs"></div>
+    <button onclick="saveTeamsAndMatches()">Save Tournament Details</button>
   </div>
 
   <script>
@@ -151,6 +167,7 @@
         tournament = data.tournament;
         updateBracket();
         generateTeamInputs();
+        generateMatchInputs();
         console.log("Data loaded successfully from GitHub!");
       } else {
         console.error("Failed to load data from GitHub:", await response.json());
@@ -159,7 +176,7 @@
 
     async function saveDataToGitHub() {
       const data = { teams, tournament };
-      
+
       const shaResponse = await fetch(
         "https://api.github.com/repos/nickcreedon1/bkcs-bracket/contents/data.json",
         {
@@ -219,92 +236,55 @@
       });
     }
 
-    function saveTeams() {
+    function generateMatchInputs() {
+      const matchInputs = document.getElementById('matchInputs');
+      matchInputs.innerHTML = '';
+
+      tournament.forEach((round, roundIndex) => {
+        round.forEach((match, matchIndex) => {
+          const matchInput = document.createElement('div');
+          matchInput.classList.add('match-input');
+
+          matchInput.innerHTML = `
+            <h3>Round ${roundIndex + 1}, Match ${matchIndex + 1}</h3>
+            <label>Team 1:</label>
+            <input type="text" id="round-${roundIndex}-match-${matchIndex}-team1" value="${match.teams[0]?.name || ''}">
+            <label>Team 2:</label>
+            <input type="text" id="round-${roundIndex}-match-${matchIndex}-team2" value="${match.teams[1]?.name || ''}">
+            <label>Winner:</label>
+            <select id="round-${roundIndex}-match-${matchIndex}-winner">
+              <option value="">Select Winner</option>
+              <option value="1">Team 1</option>
+              <option value="2">Team 2</option>
+            </select>
+            <label>Match Time:</label>
+            <input type="datetime-local" id="round-${roundIndex}-match-${matchIndex}-time" value="${new Date(match.time).toISOString().slice(0, -1)}">
+          `;
+
+          matchInputs.appendChild(matchInput);
+        });
+      });
+    }
+
+    function saveTeamsAndMatches() {
+      // Save team edits
       teams.forEach((team, i) => {
         team.name = document.getElementById(`team-${i}-name`).value || team.name;
         team.members = document.getElementById(`team-${i}-members`).value;
         team.winningPercentage = document.getElementById(`team-${i}-percent`).value;
       });
 
-      generateBracket();
-      saveDataToGitHub();
-    }
-
-    function generateBracket() {
-      let remainingTeams = [...teams];
-      const byes = (2 ** Math.ceil(Math.log2(remainingTeams.length))) - remainingTeams.length;
-
-      for (let i = 0; i < byes; i++) {
-        remainingTeams.push({ name: `Bye ${i + 1}` });
-      }
-
-      tournament = [];
-      let roundStart = saturdayStart;
-
-      while (remainingTeams.length > 1) {
-        const round = [];
-
-        for (let i = 0; i < remainingTeams.length; i += 2) {
-          const match = {
-            teams: [remainingTeams[i], remainingTeams[i + 1]],
-            time: new Date(roundStart.getTime() + round.length * matchDuration),
-            winner: null
-          };
-          round.push(match);
-        }
-
-        tournament.push(round);
-
-        remainingTeams = round.map(() => ({ name: "Winner TBD" }));
-      }
-
-      updateBracket();
-      saveDataToGitHub();
-    }
-
-    function updateBracket() {
-      bracket.innerHTML = '';
-
-      tournament.forEach(round => {
-        const column = document.createElement('div');
-        column.classList.add('round');
-
-        round.forEach(match => {
-          const matchElement = document.createElement('div');
-          matchElement.classList.add('match');
-
-          const team1 = match.teams[0];
-          const team2 = match.teams[1] || { name: 'TBD', members: '', winningPercentage: '' };
-
-          matchElement.innerHTML = `
-            <span>${match.time.toLocaleTimeString([], {
-              hour: '2-digit',
-              minute: '2-digit'
-            })}</span>
-            <div class="team">${team1.name}<div class="percent">${team1.winningPercentage || 'N/A'}%</div></div>
-            <span>vs</span>
-            <div class="team">${team2.name}<div class="percent">${team2.winningPercentage || 'N/A'}%</div></div>
-          `;
-
-          column.appendChild(matchElement);
+      // Save match edits
+      tournament.forEach((round, roundIndex) => {
+        round.forEach((match, matchIndex) => {
+          match.teams[0].name = document.getElementById(`round-${roundIndex}-match-${matchIndex}-team1`).value;
+          match.teams[1].name = document.getElementById(`round-${roundIndex}-match-${matchIndex}-team2`).value;
+          match.winner = document.getElementById(`round-${roundIndex}-match-${matchIndex}-winner`).value;
+          match.time = new Date(document.getElementById(`round-${roundIndex}-match-${matchIndex}-time`).value).toISOString();
         });
-
-        bracket.appendChild(column);
       });
-    }
 
-    function toggleView() {
-      const isAdminView = adminPanel.classList.contains('hidden');
-      if (isAdminView) {
-        adminPanel.classList.remove('hidden');
-        bracket.classList.add('hidden');
-        toggleButton.textContent = 'Switch to Public View';
-        generateTeamInputs();
-      } else {
-        adminPanel.classList.add('hidden');
-        bracket.classList.remove('hidden');
-        toggleButton.textContent = 'Switch to Admin Panel';
-      }
+      saveDataToGitHub();
     }
 
     loadDataFromGitHub();
