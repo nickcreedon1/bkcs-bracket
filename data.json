@@ -30,7 +30,7 @@
           { "name": "Christi Odiaga & Willow Johnston", "winningPercentage": 55 },
           { "name": "Bob Burke & Cory Watson", "winningPercentage": 45 }
         ],
-        "time": "2025-06-28T08:00:00Z",
+        "time": "2025-07-26T08:00:00Z",
         "winner": null
       },
       {
@@ -38,7 +38,7 @@
           { "name": "Lucy Ryan & Mackenzie O’Connor", "winningPercentage": 48 },
           { "name": "Jack Creedon & AJ Johnston", "winningPercentage": 52 }
         ],
-        "time": "2025-06-28T08:40:00Z",
+        "time": "2025-07-26T08:40:00Z",
         "winner": null
       },
       {
@@ -46,7 +46,7 @@
           { "name": "Bob Peterson & Chris Creedon", "winningPercentage": 64 },
           { "name": "Cassie Miller & Duncan Creedon", "winningPercentage": 36 }
         ],
-        "time": "2025-06-28T09:20:00Z",
+        "time": "2025-07-26T09:20:00Z",
         "winner": null
       },
       {
@@ -54,7 +54,7 @@
           { "name": "Neni Odiaga & Allie Johnston", "winningPercentage": 40 },
           { "name": "Olivia Burke & Jonathan Creedon", "winningPercentage": 60 }
         ],
-        "time": "2025-06-28T10:00:00Z",
+        "time": "2025-07-26T10:00:00Z",
         "winner": null
       },
       {
@@ -62,7 +62,7 @@
           { "name": "Austen Peterson & Mike Ryan", "winningPercentage": 55 },
           { "name": "Morgan Peterson & Brooke Thomas", "winningPercentage": 45 }
         ],
-        "time": "2025-06-28T10:40:00Z",
+        "time": "2025-07-26T10:40:00Z",
         "winner": null
       },
       {
@@ -70,7 +70,7 @@
           { "name": "Rosie Connors & Annie Burke", "winningPercentage": 49 },
           { "name": "John Rourke & Coco Creedon", "winningPercentage": 51 }
         ],
-        "time": "2025-06-28T11:20:00Z",
+        "time": "2025-07-26T11:20:00Z",
         "winner": null
       },
       {
@@ -78,7 +78,7 @@
           { "name": "Annie Connors & Will Creedon", "winningPercentage": 58 },
           { "name": "Nicholas Creedon & Todd Martin", "winningPercentage": 42 }
         ],
-        "time": "2025-06-28T12:00:00Z",
+        "time": "2025-07-26T12:00:00Z",
         "winner": null
       },
       {
@@ -86,7 +86,7 @@
           { "name": "Joel Miller & Zack Martin", "winningPercentage": 37 },
           { "name": "Bob Clinton & Margaret Fallon", "winningPercentage": 63 }
         ],
-        "time": "2025-06-28T12:40:00Z",
+        "time": "2025-07-26T12:40:00Z",
         "winner": null
       },
       {
@@ -94,7 +94,7 @@
           { "name": "Erin Taylor & Chris Martin", "winningPercentage": 47 },
           { "name": "Donna Watson & Ashley Kime", "winningPercentage": 53 }
         ],
-        "time": "2025-06-28T13:20:00Z",
+        "time": "2025-07-26T13:20:00Z",
         "winner": null
       },
       {
@@ -102,7 +102,7 @@
           { "name": "Nancy Creedon & Sue Mulgrew", "winningPercentage": 60 },
           { "name": "Caroline Creedon & Jake Miller", "winningPercentage": 40 }
         ],
-        "time": "2025-06-28T14:00:00Z",
+        "time": "2025-07-26T14:00:00Z",
         "winner": null
       },
       {
@@ -110,7 +110,7 @@
           { "name": "Ian O’Connor & Katie Martin", "winningPercentage": 51 },
           { "name": "Nat Connors & Paul Watson", "winningPercentage": 49 }
         ],
-        "time": "2025-06-28T14:40:00Z",
+        "time": "2025-07-26T14:40:00Z",
         "winner": null
       }
     ]
