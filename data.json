@@ -1,118 +1,62 @@
 {
   "teams": [
-    { "name": "Christi Odiaga & Willow Johnston", "members": "Christi Odiaga, Willow Johnston", "winningPercentage": "" },
-    { "name": "Bob Burke & Cory Watson", "members": "Bob Burke, Cory Watson", "winningPercentage": "" },
-    { "name": "Lucy Ryan & Mackenzie O’Connor", "members": "Lucy Ryan, Mackenzie O’Connor", "winningPercentage": "" },
-    { "name": "Jack Creedon & AJ Johnston", "members": "Jack Creedon, AJ Johnston", "winningPercentage": "" },
-    { "name": "Bob Peterson & Chris Creedon", "members": "Bob Peterson, Chris Creedon", "winningPercentage": "" },
-    { "name": "Cassie Miller & Duncan Creedon", "members": "Cassie Miller, Duncan Creedon", "winningPercentage": "" },
-    { "name": "Neni Odiaga & Allie Johnston", "members": "Neni Odiaga, Allie Johnston", "winningPercentage": "" },
-    { "name": "Olivia Burke & Jonathan Creedon", "members": "Olivia Burke, Jonathan Creedon", "winningPercentage": "" },
-    { "name": "Austen Peterson & Mike Ryan", "members": "Austen Peterson, Mike Ryan", "winningPercentage": "" },
-    { "name": "Morgan Peterson & Brooke Thomas", "members": "Morgan Peterson, Brooke Thomas", "winningPercentage": "" },
-    { "name": "Rosie Connors & Annie Burke", "members": "Rosie Connors, Annie Burke", "winningPercentage": "" },
-    { "name": "John Rourke & Coco Creedon", "members": "John Rourke, Coco Creedon", "winningPercentage": "" },
-    { "name": "Annie Connors & Will Creedon", "members": "Annie Connors, Will Creedon", "winningPercentage": "" },
-    { "name": "Nicholas Creedon & Todd Martin", "members": "Nicholas Creedon, Todd Martin", "winningPercentage": "" },
-    { "name": "Joel Miller & Zack Martin", "members": "Joel Miller, Zack Martin", "winningPercentage": "" },
-    { "name": "Bob Clinton & Margaret Fallon", "members": "Bob Clinton, Margaret Fallon", "winningPercentage": "" },
-    { "name": "Erin Taylor & Chris Martin", "members": "Erin Taylor, Chris Martin", "winningPercentage": "" },
-    { "name": "Donna Watson & Ashley Kime", "members": "Donna Watson, Ashley Kime", "winningPercentage": "" },
-    { "name": "Nancy Creedon & Sue Mulgrew", "members": "Nancy Creedon, Sue Mulgrew", "winningPercentage": "" },
-    { "name": "Caroline Creedon & Jake Miller", "members": "Caroline Creedon, Jake Miller", "winningPercentage": "" },
-    { "name": "Ian O’Connor & Katie Martin", "members": "Ian O’Connor, Katie Martin", "winningPercentage": "" },
-    { "name": "Nat Connors & Paul Watson", "members": "Nat Connors, Paul Watson", "winningPercentage": "" }
+    { "name": "Christi Odiaga & Willow Johnston", "members": "Christi Odiaga, Willow Johnston" },
+    { "name": "Bob Burke & Cory Watson", "members": "Bob Burke, Cory Watson" },
+    { "name": "Lucy Ryan & Mackenzie O’Connor", "members": "Lucy Ryan, Mackenzie O’Connor" },
+    { "name": "Jack Creedon & AJ Johnston", "members": "Jack Creedon, AJ Johnston" },
+    { "name": "Bob Peterson & Chris Creedon", "members": "Bob Peterson, Chris Creedon" },
+    { "name": "Cassie Miller & Duncan Creedon", "members": "Cassie Miller, Duncan Creedon" },
+    { "name": "Neni Odiaga & Allie Johnston", "members": "Neni Odiaga, Allie Johnston" },
+    { "name": "Olivia Burke & Jonathan Creedon", "members": "Olivia Burke, Jonathan Creedon" },
+    { "name": "Austen Peterson & Mike Ryan", "members": "Austen Peterson, Mike Ryan" },
+    { "name": "Morgan Peterson & Brooke Thomas", "members": "Morgan Peterson, Brooke Thomas" },
+    { "name": "Rosie Connors & Annie Burke", "members": "Rosie Connors, Annie Burke" },
+    { "name": "John Rourke & Coco Creedon", "members": "John Rourke, Coco Creedon" },
+    { "name": "Annie Connors & Will Creedon", "members": "Annie Connors, Will Creedon" },
+    { "name": "Nicholas Creedon & Todd Martin", "members": "Nicholas Creedon, Todd Martin" },
+    { "name": "Joel Miller & Zack Martin", "members": "Joel Miller, Zack Martin" },
+    { "name": "Bob Clinton & Margaret Fallon", "members": "Bob Clinton, Margaret Fallon" },
+    { "name": "Erin Taylor & Chris Martin", "members": "Erin Taylor, Chris Martin" },
+    { "name": "Donna Watson & Ashley Kime", "members": "Donna Watson, Ashley Kime" },
+    { "name": "Nancy Creedon & Sue Mulgrew", "members": "Nancy Creedon, Sue Mulgrew" },
+    { "name": "Caroline Creedon & Jake Miller", "members": "Caroline Creedon, Jake Miller" },
+    { "name": "Ian O’Connor & Katie Martin", "members": "Ian O’Connor, Katie Martin" },
+    { "name": "Nat Connors & Paul Watson", "members": "Nat Connors, Paul Watson" }
   ],
   "tournament": [
     [
-      {
-        "teams": [
-          { "name": "Christi Odiaga & Willow Johnston", "winningPercentage": 55 },
-          { "name": "Bob Burke & Cory Watson", "winningPercentage": 45 }
-        ],
-        "time": "2025-07-26T08:00:00Z",
-        "winner": null
-      },
-      {
-        "teams": [
-          { "name": "Lucy Ryan & Mackenzie O’Connor", "winningPercentage": 48 },
-          { "name": "Jack Creedon & AJ Johnston", "winningPercentage": 52 }
-        ],
-        "time": "2025-07-26T08:40:00Z",
-        "winner": null
-      },
-      {
-        "teams": [
-          { "name": "Bob Peterson & Chris Creedon", "winningPercentage": 64 },
-          { "name": "Cassie Miller & Duncan Creedon", "winningPercentage": 36 }
-        ],
-        "time": "2025-07-26T09:20:00Z",
-        "winner": null
-      },
-      {
-        "teams": [
-          { "name": "Neni Odiaga & Allie Johnston", "winningPercentage": 40 },
-          { "name": "Olivia Burke & Jonathan Creedon", "winningPercentage": 60 }
-        ],
-        "time": "2025-07-26T10:00:00Z",
-        "winner": null
-      },
-      {
-        "teams": [
-          { "name": "Austen Peterson & Mike Ryan", "winningPercentage": 55 },
-          { "name": "Morgan Peterson & Brooke Thomas", "winningPercentage": 45 }
-        ],
-        "time": "2025-07-26T10:40:00Z",
-        "winner": null
-      },
-      {
-        "teams": [
-          { "name": "Rosie Connors & Annie Burke", "winningPercentage": 49 },
-          { "name": "John Rourke & Coco Creedon", "winningPercentage": 51 }
-        ],
-        "time": "2025-07-26T11:20:00Z",
-        "winner": null
-      },
-      {
-        "teams": [
-          { "name": "Annie Connors & Will Creedon", "winningPercentage": 58 },
-          { "name": "Nicholas Creedon & Todd Martin", "winningPercentage": 42 }
-        ],
-        "time": "2025-07-26T12:00:00Z",
-        "winner": null
-      },
-      {
-        "teams": [
-          { "name": "Joel Miller & Zack Martin", "winningPercentage": 37 },
-          { "name": "Bob Clinton & Margaret Fallon", "winningPercentage": 63 }
-        ],
-        "time": "2025-07-26T12:40:00Z",
-        "winner": null
-      },
-      {
-        "teams": [
-          { "name": "Erin Taylor & Chris Martin", "winningPercentage": 47 },
-          { "name": "Donna Watson & Ashley Kime", "winningPercentage": 53 }
-        ],
-        "time": "2025-07-26T13:20:00Z",
-        "winner": null
-      },
-      {
-        "teams": [
-          { "name": "Nancy Creedon & Sue Mulgrew", "winningPercentage": 60 },
-          { "name": "Caroline Creedon & Jake Miller", "winningPercentage": 40 }
-        ],
-        "time": "2025-07-26T14:00:00Z",
-        "winner": null
-      },
-      {
-        "teams": [
-          { "name": "Ian O’Connor & Katie Martin", "winningPercentage": 51 },
-          { "name": "Nat Connors & Paul Watson", "winningPercentage": 49 }
-        ],
-        "time": "2025-07-26T14:40:00Z",
-        "winner": null
-      }
+      { "teams": [ { "name": "Christi Odiaga & Willow Johnston" }, { "name": "Bob Burke & Cory Watson" } ], "time": "", "winner": null },
+      { "teams": [ { "name": "Lucy Ryan & Mackenzie O’Connor" }, { "name": "Jack Creedon & AJ Johnston" } ], "time": "", "winner": null },
+      { "teams": [ { "name": "Bob Peterson & Chris Creedon" }, { "name": "Cassie Miller & Duncan Creedon" } ], "time": "", "winner": null },
+      { "teams": [ { "name": "Neni Odiaga & Allie Johnston" }, { "name": "Olivia Burke & Jonathan Creedon" } ], "time": "", "winner": null },
+      { "teams": [ { "name": "Austen Peterson & Mike Ryan" }, { "name": "Morgan Peterson & Brooke Thomas" } ], "time": "", "winner": null },
+      { "teams": [ { "name": "Rosie Connors & Annie Burke" }, { "name": "John Rourke & Coco Creedon" } ], "time": "", "winner": null },
+      { "teams": [ { "name": "Annie Connors & Will Creedon" }, { "name": "Nicholas Creedon & Todd Martin" } ], "time": "", "winner": null },
+      { "teams": [ { "name": "Joel Miller & Zack Martin" }, { "name": "Bob Clinton & Margaret Fallon" } ], "time": "", "winner": null },
+      { "teams": [ { "name": "Erin Taylor & Chris Martin" }, { "name": "Donna Watson & Ashley Kime" } ], "time": "", "winner": null },
+      { "teams": [ { "name": "Nancy Creedon & Sue Mulgrew" }, { "name": "Caroline Creedon & Jake Miller" } ], "time": "", "winner": null },
+      { "teams": [ { "name": "Ian O’Connor & Katie Martin" }, { "name": "Nat Connors & Paul Watson" } ], "time": "", "winner": null }
+    ],
+    [
+      { "teams": [ { "name": "Winner Match 1" }, { "name": "Winner Match 2" } ], "time": "", "winner": null },
+      { "teams": [ { "name": "Winner Match 3" }, { "name": "Winner Match 4" } ], "time": "", "winner": null },
+      { "teams": [ { "name": "Winner Match 5" }, { "name": "Winner Match 6" } ], "time": "", "winner": null },
+      { "teams": [ { "name": "Winner Match 7" }, { "name": "Winner Match 8" } ], "time": "", "winner": null },
+      { "teams": [ { "name": "Winner Match 9" }, { "name": "Winner Match 10" } ], "time": "", "winner": null },
+      { "teams": [ { "name": "Winner Match 11" }, { "name": "BYE" } ], "time": "", "winner": null }
+    ],
+    [
+      { "teams": [ { "name": "Winner Round 2 Match 1" }, { "name": "Winner Round 2 Match 2" } ], "time": "", "winner": null },
+      { "teams": [ { "name": "Winner Round 2 Match 3" }, { "name": "Winner Round 2 Match 4" } ], "time": "", "winner": null },
+      { "teams": [ { "name": "Winner Round 2 Match 5" }, { "name": "Winner Round 2 Match 6" } ], "time": "", "winner": null }
+    ],
+    [
+      { "teams": [ { "name": "Winner QF 1" }, { "name": "Winner QF 2" } ], "time": "", "winner": null },
+      { "teams": [ { "name": "Winner QF 3" }, { "name": "BYE" } ], "time": "", "winner": null }
+    ],
+    [
+      { "teams": [ { "name": "Winner SF 1" }, { "name": "Winner SF 2" } ], "time": "", "winner": null }
     ]
   ]
 }
+
