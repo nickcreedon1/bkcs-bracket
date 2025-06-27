@@ -1,0 +1,33 @@
+     {
+       "teams": [],
+       "tournament": []
+     }
+     ```
+
+
+2. **Frontend Updates:**
+   - Add two functions:
+     - **`loadDataFromGitHub`**: Fetch data from the JSON file in your repository.
+     - **`saveDataToGitHub`**: Push updated data to the JSON file via the GitHub API.
+
+3. **Personal Access Token (PAT):**
+   - Generate a PAT in GitHub with `repo` scope so the API can read and write to the file.
+   - I'll explain how to securely handle this token.
+
+4. **Update Your Existing Bracket Logic:**
+   - Replace localStorage functionality with calls to the GitHub API to read/write the `data.json` file.
+   - Ensure your app dynamically fetches the latest data on page load.
+
+---
+
+### Step-by-Step Implementation
+
+#### 1. Create `data.json` in the Repository
+1. Navigate to your repository `bkcs-bracket` in GitHub.
+2. Add a new file named `data.json` with this content:
+   
+```json
+   {
+     "teams": [],
+     "tournament": []
+   }
