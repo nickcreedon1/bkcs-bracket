@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -118,9 +117,7 @@
   <button class="toggle-button" id="toggleButton" onclick="toggleView()">Switch to Admin Panel</button>
 
   <!-- Public-facing bracket -->
-  <div class="bracket-container" id="bracket">
-    <!-- Stages and Matches will be dynamically populated here -->
-  </div>
+  <div class="bracket-container" id="bracket"></div>
 
   <!-- Admin Panel -->
   <div class="admin-panel hidden" id="adminPanel">
@@ -139,10 +136,67 @@
       members: "",
       winningPercentage: "",
     }));
-    const matchDuration = 40 * 60 * 1000;
+    const matchDuration = 40 * 60 * 1000; // 40 minutes in milliseconds
     const saturdayStart = new Date('2025-06-28T08:00:00');
-
     let tournament = [];
+
+    async function loadDataFromGitHub() {
+      const response = await fetch(
+        "https://raw.githubusercontent.com/nickcreedon1/bkcs-bracket/main/data.json"
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        teams.splice(0, teams.length, ...data.teams);
+        tournament = data.tournament;
+        updateBracket();
+        generateTeamInputs();
+        console.log("Data loaded successfully from GitHub!");
+      } else {
+        console.error("Failed to load data from GitHub:", await response.json());
+      }
+    }
+
+    async function saveDataToGitHub() {
+      const data = { teams, tournament };
+      
+      const shaResponse = await fetch(
+        "https://api.github.com/repos/nickcreedon1/bkcs-bracket/contents/data.json",
+        {
+          headers: {
+            Authorization: `token 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`,
+          },
+        }
+      );
+
+      if (shaResponse.ok) {
+        const { sha } = await shaResponse.json();
+
+        const updateResponse = await fetch(
+          "https://api.github.com/repos/nickcreedon1/bkcs-bracket/contents/data.json",
+          {
+            method: "PUT",
+            headers: {
+              Authorization: `token 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`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              message: "Update tournament and teams data",
+              content: btoa(JSON.stringify(data, null, 2)),
+              sha,
+            }),
+          }
+        );
+
+        if (updateResponse.ok) {
+          console.log("Data successfully updated to GitHub!");
+        } else {
+          console.error("Failed to update file on GitHub:", await updateResponse.json());
+        }
+      } else {
+        console.error("Failed to fetch file SHA:", await shaResponse.json());
+      }
+    }
 
     function generateTeamInputs() {
       const teamInputs = document.getElementById('teamInputs');
@@ -173,6 +227,7 @@
       });
 
       generateBracket();
+      saveDataToGitHub();
     }
 
     function generateBracket() {
@@ -200,36 +255,29 @@
 
         tournament.push(round);
 
-        remainingTeams = round.map((match, index) => ({ name: `Winner ${index + 1}` }));
-        roundStart = new Date(roundStart.getTime() + round.length * matchDuration);
+        remainingTeams = round.map(() => ({ name: "Winner TBD" }));
       }
 
       updateBracket();
+      saveDataToGitHub();
     }
 
     function updateBracket() {
       bracket.innerHTML = '';
 
-      tournament.forEach((round, roundIndex) => {
+      tournament.forEach(round => {
         const column = document.createElement('div');
         column.classList.add('round');
 
-        const totalHeight = tournament[0].length * 120; // Base height for the first round
-        const matchHeight = Math.floor(totalHeight / round.length); // Match height scaling
-
-        round.forEach((match, matchIndex) => {
+        round.forEach(match => {
           const matchElement = document.createElement('div');
           matchElement.classList.add('match');
-
-          // Dynamically calculate top margin so the match is vertically centered
-          const marginTop = Math.max((matchHeight - 120) / 2, 0);
-          matchElement.style.marginTop = `${marginTop}px`;
 
           const team1 = match.teams[0];
           const team2 = match.teams[1] || { name: 'TBD', members: '', winningPercentage: '' };
 
           matchElement.innerHTML = `
-            <span>${match.time.toLocaleDateString()} ${match.time.toLocaleTimeString([], {
+            <span>${match.time.toLocaleTimeString([], {
               hour: '2-digit',
               minute: '2-digit'
             })}</span>
@@ -259,8 +307,7 @@
       }
     }
 
-    generateTeamInputs();
+    loadDataFromGitHub();
   </script>
 </body>
 </html>
-```
